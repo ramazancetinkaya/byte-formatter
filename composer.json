@@ -1,0 +1,22 @@
+{
+    "name": "ramazancetinkaya/byte-formatter",
+    "description": "A PHP library to format bytes into human-readable format and vice versa.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ramazan Çetinkaya",
+            "email": "ramazancetinkayadev@outlook.com",
+            "homepage": "https://github.com/ramazancetinkaya"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ramazancetinkaya\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
