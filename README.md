@@ -1,9 +1,16 @@
-# ByteFormatter
+# Byte Formatter Library
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/ramazancetinkaya/byte-formatter)
 ![PHP](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg)
+[![GitHub stars](https://img.shields.io/github/stars/ramazancetinkaya/byte-formatter.svg?style=social)](https://github.com/ramazancetinkaya/byte-formatter/stargazers)
 
 A PHP library that formats bytes into a human-readable format and vice versa.
+<br>
+<br>
+<a href="https://github.com/ramazancetinkaya/byte-formatter/issues">Report a Bug</a>
+·
+<a href="https://github.com/ramazancetinkaya/byte-formatter/pulls">New Pull Request</a>
 
 ## Overview
 
