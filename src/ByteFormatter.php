@@ -1,84 +1,127 @@
 <?php
 
-/**
- * Class ByteFormatter
- *
- * Formats bytes into a human-readable format and vice versa.
- * 
- * @category  Utility
- * @package   ByteFormatter 
- * @author    Ramazan Çetinkaya <ramazancetinkayadev@outlook.com>
- * @license   MIT License <https://opensource.org/licenses/MIT>
- * @version   1.0.0
- * @link      https://github.com/ramazancetinkaya/byte-formatter
- */
-
 namespace ramazancetinkaya;
 
-class ByteFormatter {
-    /**
-     * Configuration options.
-     * @var array
-     */
-    private $config;
+/**
+ * ByteFormatter Class
+ * 
+ * A professional library for formatting byte values into human-readable strings.
+ * 
+ * @category Utility
+ * @package  ByteFormatter
+ * @author   Ramazan Çetinkaya <https://github.com/ramazancetinkaya>
+ * @license  MIT License <https://opensource.org/licenses/MIT>
+ * @version  1.0.0
+ * @link     https://github.com/ramazancetinkaya/byte-formatter
+ */
+class ByteFormatter
+{
+    private const DEFAULT_UNITS = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+    private array $units;
+    private int $precision;
 
     /**
-     * ByteFormatter constructor.
-     * @param array $config Configuration options for formatting.
+     * Constructor for ByteFormatter.
+     *
+     * @param int $precision Number of decimal places to format to. Default is 2.
+     * @param array $units Custom units for formatting. Defaults to standard units.
+     * @throws \InvalidArgumentException if precision is negative or units array is empty.
      */
-    public function __construct(array $config = []) {
-        // Set default configuration options
-        $defaultConfig = [
-            'decimalPlaces' => 2,
-            'units' => ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-        ];
+    public function __construct(int $precision = 2, array $units = self::DEFAULT_UNITS)
+    {
+        $this->validatePrecision($precision);
+        $this->validateUnits($units);
 
-        // Merge provided configuration with defaults
-        $this->config = array_merge($defaultConfig, $config);
+        $this->precision = $precision;
+        $this->units = $units;
     }
 
     /**
-     * Formats bytes into a human-readable format.
-     * @param int $bytes The number of bytes to format.
-     * @return string Formatted byte size.
+     * Formats a given byte value into a human-readable format.
+     *
+     * @param int|float $bytes The byte value to format.
+     * @param bool $binaryPrefix Whether to use binary (1024) or decimal (1000) prefixes. Default is binary.
+     * @return string The formatted byte string.
+     * @throws \InvalidArgumentException if bytes is not a non-negative numeric value.
      */
-    public function format($bytes) {
+    public function formatBytes($bytes, bool $binaryPrefix = true): string
+    {
+        $this->validateBytes($bytes);
+
+        $factor = $binaryPrefix ? 1024 : 1000;
+        $unitIndex = 0;
+
+        while ($bytes >= $factor && $unitIndex < count($this->units) - 1) {
+            $bytes /= $factor;
+            $unitIndex++;
+        }
+
+        return sprintf("%.{$this->precision}f %s", $bytes, $this->units[$unitIndex]);
+    }
+
+    /**
+     * Converts a formatted string back to bytes.
+     *
+     * @param string $formattedValue The formatted string (e.g., "1.5 GB").
+     * @param bool $binaryPrefix Whether the input uses binary (1024) or decimal (1000) prefixes. Default is binary.
+     * @return float The equivalent byte value.
+     * @throws \InvalidArgumentException if the formatted value is invalid or contains unknown units.
+     */
+    public function parseFormattedValue(string $formattedValue, bool $binaryPrefix = true): float
+    {
+        $factor = $binaryPrefix ? 1024 : 1000;
+
+        if (!preg_match('/^(\d+(\.\d+)?)\s*([a-zA-Z]+)$/', trim($formattedValue), $matches)) {
+            throw new \InvalidArgumentException("Invalid formatted value: $formattedValue");
+        }
+
+        [$original, $value, $unit] = [$matches[0], (float)$matches[1], strtoupper($matches[3])];
+        $unitIndex = array_search($unit, array_map('strtoupper', $this->units), true);
+
+        if ($unitIndex === false) {
+            throw new \InvalidArgumentException("Unknown unit '$unit' in value: $formattedValue");
+        }
+
+        return $value * ($factor ** $unitIndex);
+    }
+
+    /**
+     * Validates the precision value.
+     *
+     * @param int $precision The precision value to validate.
+     * @throws \InvalidArgumentException if precision is negative.
+     */
+    private function validatePrecision(int $precision): void
+    {
+        if ($precision < 0) {
+            throw new \InvalidArgumentException("Precision must be a non-negative integer.");
+        }
+    }
+
+    /**
+     * Validates the units array.
+     *
+     * @param array $units The units array to validate.
+     * @throws \InvalidArgumentException if units array is empty.
+     */
+    private function validateUnits(array $units): void
+    {
+        if (empty($units)) {
+            throw new \InvalidArgumentException("Units array cannot be empty.");
+        }
+    }
+
+    /**
+     * Validates the bytes value.
+     *
+     * @param mixed $bytes The bytes value to validate.
+     * @throws \InvalidArgumentException if bytes is not a non-negative numeric value.
+     */
+    private function validateBytes($bytes): void
+    {
         if (!is_numeric($bytes) || $bytes < 0) {
-            // Handle invalid input
-            throw new InvalidArgumentException('Invalid input. Please provide a non-negative numeric value.');
+            throw new \InvalidArgumentException("Bytes must be a non-negative numeric value.");
         }
-
-        $precision = $this->config['decimalPlaces'];
-        $units = $this->config['units'];
-        $bytes = max($bytes, 0);
-        $power = floor(($bytes ? log($bytes) : 0) / log(1024));
-        $formatted = round($bytes / pow(1024, $power), $precision);
-
-        if (!isset($units[$power])) {
-            // Handle edge cases for extremely large values
-            $formatted = ($power === 0) ? $bytes : '∞';
-            $power = count($units) - 1;
-        }
-
-        return $formatted . ' ' . $units[$power];
-    }
-
-    /**
-     * Converts a human-readable format back to bytes.
-     * @param string $formattedSize The human-readable size to convert (e.g., '10 MB').
-     * @return int Converted size in bytes.
-     */
-    public function convertToBytes($formattedSize) {
-        $units = $this->config['units'];
-        $sizeParts = explode(' ', $formattedSize);
-        if (count($sizeParts) !== 2 || !is_numeric($sizeParts[0]) || !in_array($sizeParts[1], $units)) {
-            // Handle invalid input format
-            throw new InvalidArgumentException('Invalid input format. Please provide a valid human-readable size (e.g., "10 MB").');
-        }
-
-        $power = array_search($sizeParts[1], $units);
-        $bytes = $sizeParts[0] * pow(1024, $power);
-
-        return (int)$bytes;
     }
 }
