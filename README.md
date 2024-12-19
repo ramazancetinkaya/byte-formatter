@@ -18,13 +18,15 @@ This library provides functionality to convert bytes into a human-readable forma
 
 ## Installation
 
-You can install this library via [Composer](https://getcomposer.org/). Run the following command:
+You can install the `ByteFormatter` library using [Composer](https://getcomposer.org/). Run the following command in your terminal:
 
 ```bash
 composer require ramazancetinkaya/byte-formatter
 ```
 
 ## Usage
+
+Here is a simple example of how to use the `ByteFormatter` class:
 
 ```php
 <?php
@@ -37,16 +39,16 @@ use ramazancetinkaya\ByteFormatter;
 $formatter = new ByteFormatter();
 
 // Format bytes
-echo $formatter->format(2048); // Output: 2 KB
+echo $formatter->formatBytes(123456789); // Outputs: 117.74 MB
 
 // Convert from human-readable size to bytes
-echo $formatter->convertToBytes('2 KB'); // Output: 2048
+echo $formatter->parseFormattedValue('1.5 GB'); // Outputs: 1610612736
 ```
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and create a pull request.
+Contributions are welcome! Please feel free to submit a pull request or open an issue for any enhancements or bug fixes.
 
 ## License
 
-This project is licensed under the MIT License. For more details, see the [LICENSE](LICENSE) file.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
