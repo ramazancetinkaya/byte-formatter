@@ -12,6 +12,14 @@ A PHP library that formats bytes into a human-readable format and vice versa.
 ·
 <a href="https://github.com/ramazancetinkaya/byte-formatter/pulls">New Pull Request</a>
 
+## 🚀 Give this Project a Star!
+
+If you find this project useful, or if you want to support the development, **starring** the repository is one of the best ways to help! ✨
+
+⭐ **Hit the star button** at the top of the page to show your support. It means a lot and encourages others to join in too!
+
+Your support fuels the project’s growth. Thanks for being awesome! 🙏
+
 ## Overview
 
 This library provides functionality to convert bytes into a human-readable format and vice versa. It allows customization of formatting options and supports error handling for invalid inputs.
