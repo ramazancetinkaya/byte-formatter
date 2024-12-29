@@ -21,12 +21,12 @@
     },
     "keywords": [
         "php",
-        "php library",
-        "byte formatter",
+        "php-library",
+        "byte-formatter",
         "binary",
         "decimal",
-        "size conversion",
-        "data formatting"
+        "size-conversion",
+        "data-formatting"
     ],
     "homepage": "https://github.com/ramazancetinkaya/byte-formatter",
     "support": {
