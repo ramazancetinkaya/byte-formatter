@@ -52,7 +52,7 @@ require 'vendor/autoload.php';
 
 use ramazancetinkaya\ByteFormatter;
 
-$formatter = new AdvancedByteFormatter(true, 2); // Binary prefixes, 2 decimal places
+$formatter = new ByteFormatter(true, 2); // Binary prefixes, 2 decimal places
 
 echo $formatter->formatBytes(10240); // Output: "10 KiB"
 ```
@@ -64,7 +64,7 @@ require 'vendor/autoload.php';
 
 use ramazancetinkaya\ByteFormatter;
 
-$formatter = new AdvancedByteFormatter();
+$formatter = new ByteFormatter();
 
 $bytes = $formatter->parseSize("1.5 MiB");
 
@@ -78,7 +78,7 @@ require 'vendor/autoload.php';
 
 use ramazancetinkaya\ByteFormatter;
 
-$formatter = new AdvancedByteFormatter();
+$formatter = new ByteFormatter();
 
 echo $formatter->convert(10240, false); // Output: "10 KB" (Decimal prefix)
 ```
