@@ -1,13 +1,14 @@
 {
     "name": "ramazancetinkaya/byte-formatter",
-    "description": "A professional library for formatting byte values into human-readable strings.",
+    "description": "A modern PHP library for formatting and parsing byte values with precision and flexibility.",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Ramazan Çetinkaya",
             "email": "ramazancetinkaya1337@protonmail.com",
-            "homepage": "https://github.com/ramazancetinkaya"
+            "homepage": "https://github.com/ramazancetinkaya",
+            "role": "Developer"
         }
     ],
     "require": {
@@ -18,5 +19,18 @@
             "ramazancetinkaya\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "keywords": [
+        "php",
+        "php library",
+        "byte formatter",
+        "binary",
+        "decimal",
+        "size conversion",
+        "data formatting"
+    ],
+    "homepage": "https://github.com/ramazancetinkaya/byte-formatter",
+    "support": {
+        "issues": "https://github.com/ramazancetinkaya/byte-formatter/issues",
+        "source": "https://github.com/ramazancetinkaya/byte-formatter"
+    }
 }
